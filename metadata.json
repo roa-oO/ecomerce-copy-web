@@ -1,0 +1,6 @@
+{
+  "name": "이커머스 채널별 최적화 카피 자동 생성기",
+  "description": "쿠팡, 네이버 스마트스토어, 자사몰에 완벽하게 최적화된 상품 키워드, 상품명, 셀링포인트, 상세페이지 카피를 한 번에 대량 자동 생성하는 인공지능 카피라이팅 도구입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
