@@ -28,6 +28,23 @@ import {
 } from "lucide-react";
 import { InputParams, GenerationResult, ChannelOutput } from "./types";
 
+async function readApiJson(response: Response) {
+  const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
+
+  if (!contentType.includes("application/json")) {
+    throw new Error(
+      `서버가 JSON 대신 다른 응답을 보냈습니다. (${response.status}) Vercel의 /api 함수가 배포되었는지 확인해 주세요.`
+    );
+  }
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    throw new Error("서버 응답을 JSON으로 해석하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+  }
+}
+
 export default function App() {
   const [inputs, setInputs] = useState<InputParams>({
     brandName: "",
@@ -79,7 +96,7 @@ export default function App() {
         body: JSON.stringify({ apiKey: apiKeyInput }),
       });
       
-      const data = await response.json();
+      const data = await readApiJson(response);
       
       if (!response.ok || !data.valid) {
         throw new Error(data.error || "API Key가 유효하지 않습니다.");
@@ -239,11 +256,11 @@ export default function App() {
         });
 
         if (!response.ok) {
-          const errData = await response.json();
+          const errData = await readApiJson(response);
           throw new Error(errData.error || "카피 생성 서버 응답에 오류가 발생했습니다.");
         }
 
-        const data = await response.json();
+        const data = await readApiJson(response);
         await loadingPromise; 
         
         const newResult: GenerationResult = {
