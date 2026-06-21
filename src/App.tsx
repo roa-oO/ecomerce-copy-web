@@ -26,6 +26,7 @@ import {
   ChevronDown,
   ChevronUp
 } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 import { InputParams, GenerationResult, ChannelOutput } from "./types";
 
 async function readApiJson(response: Response) {
@@ -1912,6 +1913,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      <Analytics />
 
     </div>
   );
